@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+/* section[id="lecture-search-form"]  .... */
+#lecture-search-form input[type="text"]
+/* #lecture-search-form > form > fieldset > legen + label + input */
+/* #lecture-search-form legen + label + input */
+/* #lecture-search-form legen ~ input[type="text"] */
+{
+	color:red;
+	font-weight: bold;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    		http://www.springframework.org/schema/beans
+        	http://www.springframework.org/schema/beans/spring-beans.xsd
+        	http://www.springframework.org/schema/context
+        	http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:annotation-config />
+    <!-- services -->
+
+	<!--
+	NoticeDao noticeDao = new MyBatisNoticeDao();
+		
+		NoticeConsole console = new NoticeConsole();
+		console.setNoticeDao(noticeDao); 
+	 -->
+	 
+    <bean id="noticeDao1" class="com.newlecture.web.HiNoticeDao" />
+    <bean id="noticeDao2" class="com.newlecture.web.HiNoticeDao" />
+	<bean id="console" class="com.newlecture.web.NoticeConsole" >
+		<!-- <property name="noticeDao"  ref="noticeDao" /> -->
+	</bean>
+	
+	
+    <!-- more bean definitions for services go here -->
+
+</beans>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns="http://www.springframework.org/schema/security"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    		http://www.springframework.org/schema/beans
+        	http://www.springframework.org/schema/beans/spring-beans.xsd
+        	http://www.springframework.org/schema/mvc
+        	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        	http://www.springframework.org/schema/context
+        	http://www.springframework.org/schema/context/spring-context.xsd
+        	http://www.springframework.org/schema/security
+        	http://www.springframework.org/schema/security/spring-security.xsd"
+        	>
+        	
+        	<!-- 자동 로그인 페이지 사용하고 싶을 때 사용 -->
+        	<!-- <http auto-config="true"> -->
+			
+			
+			<!-- 로그인 후 작업이 있을 경우 사용하는 핸들러 -->
+			<beans:bean id="newlecAuthenticationSuccessHandler" 
+			class="com.newlecture.web.controller.NewlecAuthenticationSuccessHandler" />
+        	       	
+        	<http>
+        		<form-login 
+        		login-page="/joinus/login"
+				default-target-url="/customer/notice"
+				authentication-success-handler-ref="newlecAuthenticationSuccessHandler"/>
+        		<!-- login-page → 로그인 페이지를 지정해주는 속성 -->
+				<!-- 위와 같은 설정을 하고 스프링과 파라미터명을 일치시켜주는 작업을 해야한다. -->
+				<!-- default-target-url → 로그인 후 이동할 페이지 -->
+				<!-- authentication-success-handler-ref -> 로그인이 성공했을때 할 작업 -->
+				
+				
+				
+				<!-- 로그아웃이 성공했을 때 이동할 페이지 설정 -->
+				<logout logout-success-url="/customer/notice"/>
+				
+				
+        		<!-- 아래 url에 접근이 제한된다 -->
+        		<!-- 즉. 접근 시 로그인을 요청하게 된다. -->
+        		<!-- access → 접근 가능한 역할(등급) -->
+        		<intercept-url pattern="/customer/noticeDetail" access="ROLE_USER, ROLE_ADMIN"/>
+        		<intercept-url pattern="/customer/noticeReg" access="ROLE_ADMIN"/>
+        	</http>
+
+
+
+        	
+        	<authentication-manager>
+        		<authentication-provider>
+        		<!-- DB에 접속하여 로그인 정보를 확인하는 방법 -->
+        		<!-- 스프링이 하단 쿼리에서 원하는 컬럼은 3종류 -->
+        			<jdbc-user-service 
+        			data-source-ref="dataSource"
+        			users-by-username-query="select uid userid, pwd password,1enabled
+        									from members where uid=?" 
+        									
+       				authorities-by-username-query="
+       					select Memberuid userid, RoleName AUTHORITIES from memberRoles where Memberuid = ?" />
+        			
+        				
+        				<!-- DB접속 없이 아래 유저를 설정할 수도 있다. 이를 인메모리 유저라고 한다. -->
+        				<!-- <user name="newlec" password="1111" authorities="ROLE_USER, ROLE_ADMIN"/>
+        				<user name="dragon" password="1111" authorities="ROLE_USER"/> -->
+        		</authentication-provider>
+        	</authentication-manager>
+   
+ </beans:beans>
+
+ 
+ <!-- 위와 같은 작업을 해주고 web.xml에서 filter로 설정해주어야 로그인 작업이 제대로 완성된다 -->

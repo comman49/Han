@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newlecture.web.dao.MemberDao">
+	
+	<select id="getMember" parameterType="string" resultType="com.newlecture.web.vo.Member">
+		SELECT * FROM Members WHERE Uid=#{uid}
+	</select>
+	
+</mapper>

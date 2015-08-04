@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    		http://www.springframework.org/schema/beans
+        	http://www.springframework.org/schema/beans/spring-beans.xsd
+        	http://www.springframework.org/schema/mvc
+        	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        	http://www.springframework.org/schema/context
+        	http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <mvc:annotation-driven />
+	<mvc:resources mapping="/resource/**" location="/resource/" />
+	
+	<context:component-scan base-package="com.newlecture.web.controller" />
+	
+	<!-- 목표물을 찾는것이 resolving -->
+	<!-- 그것을 도와주는 것이 resolver -->
+	<bean name="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+	</bean>
+	
+	
+	<!-- tiles를 사용하기위한 설정 -->
+	<bean class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<property name="definitions" value="/WEB-INF/tiles.xml"/>
+	</bean>
+	
+	
+	<!-- 설정 파일의 위치를 알려주는 resolver -->
+	<bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+		<property name="viewClass">
+			<value>
+				org.springframework.web.servlet.view.tiles3.TilesView
+			</value>
+		</property>
+	</bean>
+	
+	
+	
+	<!-- 데이터 서비스 설정, 이 부분은 service-context.xml로 넘어간다.
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
+	    <property name="url" value="jdbc:sqlserver://211.238.142.250:1433;database=newlecdb"></property>
+	    <property name="username" value="sist"></property>
+	    <property name="password" value="classf"></property>
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" 
+			value="classpath:com/newlecture/web/dao/mybatis/mapper/*.xml" />
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="noticeDao" class="com.newlecture.web.dao.mybatis.MyBatisNoticeDao" />
+	<bean id="noticeFileDao" class="com.newlecture.web.dao.mybatis.MyBatisNoticeFileDao" />
+	<bean name="/customer/notice" 
+		class="com.newlecture.web.controller.SpringNoticeController" />	
+ -->
+</beans>

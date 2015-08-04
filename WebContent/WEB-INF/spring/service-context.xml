@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    		http://www.springframework.org/schema/beans
+        	http://www.springframework.org/schema/beans/spring-beans.xsd
+        	http://www.springframework.org/schema/mvc
+        	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        	http://www.springframework.org/schema/context
+        	http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <context:annotation-config />
+    
+    <!--  이 부분은 servlet-context.xml로 넘어간다.
+    <mvc:annotation-driven />
+    
+	<mvc:resources mapping="/resource/**" location="/resource/" />
+	
+	<context:component-scan base-package="com.newlecture.web.controller" />
+	
+	<bean name="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="100000000" />
+	</bean> -->
+	
+	<!-- 데이터 서비스 설정 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
+	    <property name="url" value="jdbc:sqlserver://211.238.142.250:1433;database=newlecdb"></property>
+	    <property name="username" value="sist"></property>
+	    <property name="password" value="classf"></property>
+	</bean>
+
+
+
+	
+	<!-- Mybatis에 스프링을 사용할 때는 관련된 jar를 다운로드받고, 아래와 같은 설정을 해준다. -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations" 
+			value="classpath:com/newlecture/web/dao/mybatis/mapper/*.xml" />
+	</bean>
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<bean id="memberDao" class="com.newlecture.web.dao.mybatis.MyBatisMemberDao" />
+	<bean id="noticeDao" class="com.newlecture.web.dao.mybatis.MyBatisNoticeDao" />
+	<bean id="noticeFileDao" class="com.newlecture.web.dao.mybatis.MyBatisNoticeFileDao" />
+	<!-- <bean name="/customer/notice" 
+		class="com.newlecture.web.controller.SpringNoticeController" />	 -->
+
+</beans>

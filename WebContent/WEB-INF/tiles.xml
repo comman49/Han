@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<!-- tiles 라이브러리가 아래와 같이 조립해달라고 하기 위해서 하는 것 -->
+<!-- tiles를 사용할 경우 컨트롤러가 tiles를 호출해야 한다 -->
+<tiles-definitions>
+
+	<!-- *가 없는 definition을 최상위에 둔다. -->
+	<definition name="home.*" template="/WBE-INF/view/inc/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/view/inc/header.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/{1}.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/view/inc/footer.jsp" />
+	</definition>
+
+
+	<!-- 디렉토리와 레이아웃 구조가 다르기 때문에 따로 지정한다. -->
+	<!-- template는 빈 껍데기만 남은 jsp를 지정한다. tiles가 template에 attribute들을 조합한다. -->
+	<!-- *를 사용하면 변수화 된다. 중괄호와 숫자를 사용해 변수처럼 사용 -->
+	<!-- *은 최대 2개 사용 가능 -->
+	<definition name="*.*" template="/WEB-INF/view/{1}/inc/layout.jsp">
+		<put-attribute name="header" value="/WEB-INF/view/inc/header.jsp" />
+		<put-attribute name="aside" value="/WEB-INF/view/{1}/inc/aside.jsp" />
+		<!-- {1} 이라는 것으로 변수화가 되었다 -->
+		<!-- {2}는 두번째 *를 말한다 -->
+		<put-attribute name="body" value="/WEB-INF/view/{1}/{2}.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/view/inc/footer.jsp" />
+	</definition>
+</tiles-definitions>

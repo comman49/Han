@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.newlecture.web.dao.NoticeDao">
+	<select id="getNotices" resultType="com.newlecture.web.vo.Notice">
+		SELECT * FROM NOTICEVIEW ORDER BY REGDATE DESC
+	</select>
+	
+	<select id="getNotice" parameterType="string" resultType="com.newlecture.web.vo.Notice">
+		SELECT * FROM NOTICEVIEW WHERE CODE=#{code}
+	</select>
+	
+	<select id="getLastCode"  resultType="string">
+		select isnull(max(cast(code as int)), 0) code from notices
+	</select>
+	
+	<insert id="addNotice" parameterType="com.newlecture.web.vo.Notice">
+		<selectKey keyProperty="code" order="BEFORE" resultType="string">
+			select isnull(max(cast(code as int)), 0)+1 code from notices
+		</selectKey>
+		
+		INSERT INTO NOTICES	(
+			CODE,
+			TITLE,
+			WRITER,			
+			CONTENT			
+		)
+		VALUES(
+			#{code},
+			#{title},
+			#{writer},			
+			#{content}			
+		)
+	</insert>
+	
+</mapper>

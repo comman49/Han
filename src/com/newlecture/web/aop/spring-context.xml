@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    		http://www.springframework.org/schema/beans
+        	http://www.springframework.org/schema/beans/spring-beans.xsd
+        	http://www.springframework.org/schema/context
+        	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<bean id="prince" class="com.newlecture.web.dao.mybatis.MyBatisNoticeDao" />
+	<bean id="logBeforeAdvice" class="com.newlecture.web.aop.LogBeforeAdvice" />
+	<bean id="logAroundAdvice" class="com.newlecture.web.aop.LogAroundAdvice" />
+	
+	<bean id="noticePointcut" class="org.springframework.aop.support.NameMatchMethodPointcut">
+		<property name="mappedNames">
+			<list>
+				<value>getNotices</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="noticeAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+		<property name="pointcut" ref="noticePointcut" />	
+		<property name="advice" ref="logBeforeAdvice" />	
+	</bean>
+	
+	<bean id="noticeDao" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="target" ref="prince" />
+		<property name="interceptorNames">
+			<list>
+				<value>noticeAdvisor</value>
+				<!-- <value>logBeforeAdvice</value>
+				<value>logAroundAdvice</value> -->
+			</list>
+		</property>
+	</bean>
+	
+
+</beans>
