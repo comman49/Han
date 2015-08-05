@@ -28,7 +28,7 @@
 	<!-- 데이터 서비스 설정 -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"></property>
-	    <property name="url" value="jdbc:sqlserver://211.238.142.250:1433;database=newlecdb"></property>
+	    <property name="url" value="jdbc:sqlserver://db.newlecture.com:1433;database=newlecdb"></property>
 	    <property name="username" value="sist"></property>
 	    <property name="password" value="classf"></property>
 	</bean>
