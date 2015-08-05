@@ -271,8 +271,55 @@ top: 40px;
 		/* alert (m.name); == alert(m[“name”]);
 		alert (m.age); == alert (m[“age”]); */
 
-		for (var k in m)
-			alert(m[k]);
+		/* for (var k in m)
+			alert(m[k]); */
+		
+		/* alert((function(a, b) {
+			return a + b;
+		}) (3, 4)	); */
+		
+		/* function add(a, b) {
+			return arguments[0] + arguments[1];
+		}
+		
+		var x = add(1);
+		alert(x);
+		var y = add(1, 2, 3);
+		alert(y); */
+		
+		/* 이렇게 하면 오류 발생 */
+		/* alert(a);
+		a = 1; */
+		
+		/* alert(a);
+		{
+		var a = 1;
+		var a = 2;
+		} */
+		
+		
+		/* function f1(){
+			a = 1;
+		}
+
+		f1();
+
+		alert(a); */
+		
+		
+		function f1() {
+			var a = 1;
+			f2();
+			function f2() {
+				var a = 2;
+				f3();
+				function f3() {
+					var a = 3;
+				}
+			}
+		}
+		f1();
+		alert(a);
 	</script>
 	
 	<!-- --------------------------------------------------------------------- -->
